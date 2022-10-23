@@ -1,6 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using MoviesApi.Data;
+using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var connectionString = builder.Configuration.GetConnectionString("MoviesApiDbConnectionString");
+builder.Services.AddDbContext<MoviesApiDbContext>(options =>
+{
+    options.UseSqlServer(connectionString);
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -12,6 +21,8 @@ builder.Services.AddCors(options =>
                                       .AllowAnyOrigin()
                                       .AllowAnyMethod());
 });
+
+builder.Host.UseSerilog((ctx, lc) => lc.WriteTo.Console().ReadFrom.Configuration(ctx.Configuration));
 
 var app = builder.Build();
 
