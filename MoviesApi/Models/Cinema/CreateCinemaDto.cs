@@ -1,6 +1,6 @@
 ﻿namespace MoviesApi.Models.Cinema
 {
-    public class CreateCinema : BaseCinemaDto
+    public class CreateCinemaDto : BaseCinemaDto
     {
     }
 }

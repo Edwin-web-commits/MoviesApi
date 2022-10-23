@@ -1,6 +1,6 @@
 ﻿namespace MoviesApi.Models.Cinema
 {
-    public class GetManyCinemas : BaseCinemaDto
+    public class GetManyCinemasDto : BaseCinemaDto
     {
         public int Id { get; set; }
     }

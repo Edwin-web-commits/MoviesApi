@@ -2,7 +2,7 @@
 
 namespace MoviesApi.Models.Cinema
 {
-    public class GetSingleCinema : BaseCinemaDto
+    public class GetSingleCinemaDto : BaseCinemaDto
     {
         public int Id { get; set; }
         public List<GetSingleMovieDto> Movies { get; set; }
