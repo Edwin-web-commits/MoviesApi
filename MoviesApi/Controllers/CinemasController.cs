@@ -35,8 +35,7 @@ namespace MoviesApi.Controllers
             return Ok(records);
         }
 
-        // GET: api/Cinemas/5
-        [HttpGet("{id}")]
+        [HttpGet("cinema/{id}")]
         public async Task<ActionResult<GetSingleCinemaDto>> GetCinema(int id)
         {
             var cinema = await _cinemaRepository.GetDetails(id);
@@ -49,9 +48,8 @@ namespace MoviesApi.Controllers
             return Ok(record);
         }
 
-        // PUT: api/Cinemas/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut("updateCinema/{id}")]
         public async Task<IActionResult> PutCinema(int id, UpdateCinemaDto cinema)
         {
             if (id != cinema.Id)
@@ -87,9 +85,8 @@ namespace MoviesApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Cinemas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+        [HttpPost("createCinema")]
         public async Task<ActionResult<GetSingleCinemaDto>> PostCinema(CreateCinemaDto cinema)
         {
             var cinema_ = _mapper.Map<Cinema>(cinema);
@@ -98,8 +95,7 @@ namespace MoviesApi.Controllers
             return CreatedAtAction("GetCinema", new { id = cinema_.Id }, cinema);
         }
 
-        // DELETE: api/Cinemas/5
-        [HttpDelete("{id}")]
+        [HttpDelete("deleteCinema/{id}")]
         public async Task<IActionResult> DeleteCinema(int id)
         {
             var cinema = await _cinemaRepository.GetAsync(id);
