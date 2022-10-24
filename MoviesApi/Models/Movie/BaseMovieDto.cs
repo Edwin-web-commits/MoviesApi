@@ -7,7 +7,7 @@
         public DateTime ReleaseDate { get; set; }
         public DateTime Playdate { get; set; }
         public string ImageUrl { get; set; }
-        public int CatergoryId { get; set; }
+        public int CategoryId { get; set; }
         public int CinemaId { get; set; }
     }
 }

@@ -25,7 +25,6 @@ namespace MoviesApi.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/Categories
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetManyCategoriesDto>>> GetCategories()
         {
@@ -34,11 +33,10 @@ namespace MoviesApi.Controllers
             return Ok(mappedCategories);
         }
 
-        // GET: api/Categories/5
         [HttpGet("category/{id}")]
         public async Task<ActionResult<GetSingleCategoryDto>> GetCategory(int id)
         {
-            var category = await _categoryRepository.GetAsync(id);
+            var category = await _categoryRepository.GetDetails(id);
 
             if (category == null)
             {
@@ -48,7 +46,6 @@ namespace MoviesApi.Controllers
             return Ok(singleCategory);
         }
 
-        // PUT: api/Categories/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("updateCategory/{id}")]
         public async Task<IActionResult> PutCategory(int id, UpdateCategoryDto category)
@@ -79,7 +76,6 @@ namespace MoviesApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Categories
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("createCategory")]
         public async Task<ActionResult<Category>> PostCategory(CreateCategoryDto category)
@@ -90,7 +86,6 @@ namespace MoviesApi.Controllers
             return CreatedAtAction("GetCategory", new { id = newCategory.Id }, category);
         }
 
-        // DELETE: api/Categories/5
         [HttpDelete("deleteCategory/{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
