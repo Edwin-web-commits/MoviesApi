@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesApi.Data;
+using MoviesApi.Exceptions;
 using MoviesApi.IRepository;
 using MoviesApi.Models.Cinema;
 
@@ -42,7 +43,7 @@ namespace MoviesApi.Controllers
 
             if (cinema == null)
             {
-                return NotFound();
+                throw new NotFoundException(nameof(GetCinema), id);
             }
             var record = _mapper.Map<GetSingleCinemaDto>(cinema);
             return Ok(record);
@@ -61,26 +62,27 @@ namespace MoviesApi.Controllers
 
             if (existingCinema == null)
             {
-                return NotFound();
+                throw new NotFoundException(nameof(PutCinema), id);
             }
 
             _mapper.Map(cinema, existingCinema);
 
-            try
-            {
-                await _cinemaRepository.UpdateAsync(existingCinema);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!await CinemaExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            //try
+            //{
+            //    await _cinemaRepository.UpdateAsync(existingCinema);
+            //}
+            //catch (DbUpdateConcurrencyException)
+            //{
+            //    if (!await CinemaExists(id))
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
+            await _cinemaRepository.UpdateAsync(existingCinema);
 
             return NoContent();
         }
@@ -101,7 +103,7 @@ namespace MoviesApi.Controllers
             var cinema = await _cinemaRepository.GetAsync(id);
             if (cinema == null)
             {
-                return NotFound();
+                throw new NotFoundException(nameof(DeleteCinema), id);
             }
             await _cinemaRepository.DeleteAsync(id);
 

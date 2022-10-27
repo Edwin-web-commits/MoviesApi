@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesApi.Data;
+using MoviesApi.Exceptions;
 using MoviesApi.IRepository;
 using MoviesApi.Models.Movie;
 
@@ -40,7 +41,8 @@ namespace MoviesApi.Controllers
 
             if (movie == null)
             {
-                return NotFound();
+                throw new NotFoundException(nameof(GetMovie), id);
+                //return NotFound();
             }
             var singleMovie = _mapper.Map<GetSingleMovieDto>(movie);
             return Ok(singleMovie);
@@ -55,24 +57,29 @@ namespace MoviesApi.Controllers
                 return BadRequest();
             }
             var existingMovie = await _movieRepository.GetAsync(id);
+            if (existingMovie == null)
+            {
+                throw new NotFoundException(nameof(PutMovie), id);
+            }
             var mappedMovie = _mapper.Map(movie, existingMovie);
 
-            try
-            {
-                await _movieRepository.UpdateAsync(mappedMovie);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!await MovieExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            //try
+            //{
+            //    await _movieRepository.UpdateAsync(mappedMovie);
+            //}
+            //catch (DbUpdateConcurrencyException)
+            //{
+            //    if (!await MovieExists(id))
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
 
+            await _movieRepository.UpdateAsync(mappedMovie);
             return NoContent();
         }
 
@@ -92,7 +99,8 @@ namespace MoviesApi.Controllers
             var movie = await _movieRepository.GetAsync(id);
             if (movie == null)
             {
-                return NotFound();
+                throw new NotFoundException(nameof(DeleteMovie), id);
+                //return NotFound();
             }
 
             await _movieRepository.DeleteAsync(id);

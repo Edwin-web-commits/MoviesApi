@@ -15,13 +15,13 @@ namespace MoviesApi.Controllers
 {
     [Route("api/v{version:apiVersion}/categories")]
     [ApiController]
-    [ApiVersion("1.0", Deprecated = true)]
-    public class CategoriesController : ControllerBase
+    [ApiVersion("2.0")]
+    public class CategoriesV2Controller : ControllerBase
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
 
-        public CategoriesController(ICategoryRepository categoryRepository, IMapper mapper)
+        public CategoriesV2Controller(ICategoryRepository categoryRepository, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;
